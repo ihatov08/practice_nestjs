@@ -28,4 +28,11 @@ export class TasksService {
   getTaskById(id: string): Task {
     return this.tasks.find((task) => task.id === id);
   }
+
+  deleteTaskById(id: string): Task {
+    const task = this.tasks.find((task) => task.id === id);
+    const index = this.tasks.indexOf(task);
+    this.tasks.splice(index, 1);
+    return task;
+  }
 }
