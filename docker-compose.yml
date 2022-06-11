@@ -9,6 +9,23 @@ services:
     volumes:
       - .:/app
       - node_modules:/app/node_modules
-
+  db:
+    image: postgres
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: password
+  pgadmin4:
+    image: dpage/pgadmin4
+    ports:
+        - 8888:80
+    volumes:
+        - pgadmin:/var/lib/pgadmin
+    environment:
+        PGADMIN_DEFAULT_EMAIL: ihatov08@gmail.com
+        PGADMIN_DEFAULT_PASSWORD: password
+    depends_on:
+      - db
 volumes:
   node_modules:
+  pgadmin:
