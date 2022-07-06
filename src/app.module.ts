@@ -3,6 +3,7 @@ import { TasksModule } from './tasks/tasks.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { Task } from './tasks/tasks.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { Task } from './tasks/tasks.entity';
       synchronize: true,
     }),
     TasksModule,
+    AuthModule,
   ],
 })
 export class AppModule {
