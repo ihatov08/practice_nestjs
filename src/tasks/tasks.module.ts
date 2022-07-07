@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Type } from 'class-transformer';
 import { TasksController } from './tasks.controller';
 import { Task } from './tasks.entity';
 import { TasksService } from './tasks.service';
