@@ -14,16 +14,18 @@ export class TasksService {
     private tasksRepository: Repository<Task>,
   ) {}
 
-  async getAllTasks(filterDto: GetTasksFilterDto): Promise<Task[]> {
+  async getAllTasks(filterDto: GetTasksFilterDto, user: User): Promise<Task[]> {
     const { status, search } = filterDto;
     const query = await this.tasksRepository.createQueryBuilder('task');
+    query.where({ user });
 
     if (status) {
       query.andWhere('task.status = :status', { status });
     }
 
     if (search) {
-      query.andWhere('task.title LIKE :search OR task.description LIKE :search',
+      query.andWhere(
+        '(task.title LIKE :search OR task.description LIKE :search)',
         { search: `%${search}%` },
       );
     }
