@@ -5,20 +5,26 @@ import { DataSource } from 'typeorm';
 import { Task } from './tasks/tasks.entity';
 import { AuthModule } from './auth/auth.module';
 import { User } from './auth/user.entity';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({}),
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'db',
-      port: 5432,
-      username: 'postgres',
-      password: 'password',
-      database: 'task-management',
-      entities: [Task, User],
-      synchronize: true,
+    ConfigModule.forRoot({
+      ignoreEnvFile: true,
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        type: 'postgres',
+        synchronize: true,
+        autoLoadEntities: true,
+        host: configService.get('POSTGRES_HOST'),
+        port: configService.get('POSTGRES_PORT'),
+        username: configService.get('POSTGRES_USERNAME'),
+        password: configService.get('POSTGRES_PASSWORD'),
+        database: configService.get('POSTGRES_DATABASE'),
+      }),
     }),
     TasksModule,
     AuthModule,
