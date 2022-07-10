@@ -5,9 +5,11 @@ import { DataSource } from 'typeorm';
 import { Task } from './tasks/tasks.entity';
 import { AuthModule } from './auth/auth.module';
 import { User } from './auth/user.entity';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({}),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'db',
