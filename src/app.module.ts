@@ -6,11 +6,13 @@ import { Task } from './tasks/tasks.entity';
 import { AuthModule } from './auth/auth.module';
 import { User } from './auth/user.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { configValicationSchema } from './config.schema';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       ignoreEnvFile: true,
+      validationSchema: configValicationSchema,
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
