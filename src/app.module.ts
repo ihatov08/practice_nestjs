@@ -10,6 +10,7 @@ import { configValicationSchema } from './config.schema';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Config } from 'prettier';
 import { MenteesModule } from './mentees/mentees.module';
+import { Mentee } from './mentees/mentee.model';
 
 @Module({
   imports: [
@@ -31,22 +32,19 @@ import { MenteesModule } from './mentees/mentees.module';
         database: configService.get('POSTGRES_DATABASE'),
       }),
     }),
-    SequelizeModule.forRootAsync({
-      useFactory: async (configService: ConfigService) => ({
-        dialect: 'postgres',
-        host: configService.get('POSTGRES_HOST'),
-        port: configService.get('POSTGRES_PORT'),
-        username: configService.get('POSTGRES_USERNAME'),
-        password: configService.get('POSTGRES_PASSWORD'),
-        database: configService.get('POSTGRES_DATABASE'),
-        models: [],
-      }),
+    SequelizeModule.forRoot({
+      dialect: 'postgres',
+      host: process.env.POSTGRES_HOST,
+      port: Number(process.env.POSTGRES_PORT),
+      username: process.env.POSTGRES_USERNAME,
+      password: process.env.POSTGRES_PASSWORD,
+      database: process.env.POSTGRES_DATABASE,
+      autoLoadModels: true,
+      synchronize: true,
     }),
     TasksModule,
     AuthModule,
     MenteesModule,
   ],
 })
-export class AppModule {
-  constructor(private dataSource: DataSource) {}
-}
+export class AppModule {}
