@@ -7,6 +7,9 @@ import { AuthModule } from './auth/auth.module';
 import { User } from './auth/user.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { configValicationSchema } from './config.schema';
+import { SequelizeModule } from '@nestjs/sequelize';
+import { Config } from 'prettier';
+import { MenteesModule } from './mentees/mentees.module';
 
 @Module({
   imports: [
@@ -28,8 +31,20 @@ import { configValicationSchema } from './config.schema';
         database: configService.get('POSTGRES_DATABASE'),
       }),
     }),
+    SequelizeModule.forRootAsync({
+      useFactory: async (configService: ConfigService) => ({
+        dialect: 'postgres',
+        host: configService.get('POSTGRES_HOST'),
+        port: configService.get('POSTGRES_PORT'),
+        username: configService.get('POSTGRES_USERNAME'),
+        password: configService.get('POSTGRES_PASSWORD'),
+        database: configService.get('POSTGRES_DATABASE'),
+        models: [],
+      }),
+    }),
     TasksModule,
     AuthModule,
+    MenteesModule,
   ],
 })
 export class AppModule {
