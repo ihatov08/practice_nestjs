@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { configValicationSchema } from './config.schema';
+import { EnvironmentConfigModule } from './infrastructure/config/environment-config/environment-config.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { configValicationSchema } from './config.schema';
         database: configService.get('POSTGRES_DATABASE'),
       }),
     }),
+    EnvironmentConfigModule,
   ],
 })
 export class AppModule {}
