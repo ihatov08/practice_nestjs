@@ -1,10 +1,5 @@
 import { Module } from '@nestjs/common';
-import { TasksModule } from './tasks/tasks.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DataSource } from 'typeorm';
-import { Task } from './tasks/tasks.entity';
-import { AuthModule } from './auth/auth.module';
-import { User } from './auth/user.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { configValicationSchema } from './config.schema';
 
@@ -28,10 +23,6 @@ import { configValicationSchema } from './config.schema';
         database: configService.get('POSTGRES_DATABASE'),
       }),
     }),
-    TasksModule,
-    AuthModule,
   ],
 })
-export class AppModule {
-  constructor(private dataSource: DataSource) {}
-}
+export class AppModule {}
