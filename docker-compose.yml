@@ -1,6 +1,6 @@
 version: '3'
 services:
-  web:
+  api:
     build:
       context: .
     command: yarn run start:dev
@@ -18,12 +18,16 @@ services:
       POSTGRES_DATABASE: task-management
     depends_on:
       - db
+    networks:
+      - task_management_network
   db:
     image: postgres
     volumes:
       - ./tmp/db:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: password
+    networks:
+      - task_management_network
   pgadmin4:
     image: dpage/pgadmin4
     ports:
@@ -37,6 +41,11 @@ services:
       driver: "none"
     depends_on:
       - db
+    networks:
+      - task_management_network
 volumes:
   node_modules:
   pgadmin:
+networks:
+  task_management_network:
+    external: true
