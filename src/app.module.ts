@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { configValicationSchema } from './config.schema';
 import { EnvironmentConfigModule } from './infrastructure/config/environment-config/environment-config.module';
+import { TypeormModule } from './infrastructure/config/typeorm/typeorm.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { EnvironmentConfigModule } from './infrastructure/config/environment-con
       }),
     }),
     EnvironmentConfigModule,
+    TypeormModule,
   ],
 })
 export class AppModule {}
